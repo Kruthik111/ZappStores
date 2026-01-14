@@ -104,7 +104,7 @@ function SearchResults() {
                                     <Sparkles size={20} className="text-accent-primary" />
                                     <h2 className="text-sm font-black text-white uppercase tracking-[0.3em]">Explore Categories</h2>
                                 </div>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                                <div className="flex md:grid md:grid-cols-4 gap-6 md:gap-8 overflow-x-auto md:overflow-visible pb-4 md:pb-0 scrollbar-hide">
                                     {CATEGORY_DISCOVERY.map((cat, i) => (
                                         <motion.button
                                             key={cat.name}
@@ -112,10 +112,10 @@ function SearchResults() {
                                             animate={{ opacity: 1, scale: 1 }}
                                             transition={{ delay: i * 0.1 }}
                                             onClick={() => router.push(`/search?q=${cat.name}`)}
-                                            className="group relative"
+                                            className="group relative flex-shrink-0"
                                         >
                                             <div className={cn(
-                                                "aspect-square rounded-full overflow-hidden border-2 border-white/5 relative bg-gradient-to-br transition-all duration-500 group-hover:scale-105 group-hover:border-accent-neon",
+                                                "w-24 h-24 md:w-full md:h-auto md:aspect-square rounded-full overflow-hidden border-2 border-white/5 relative bg-gradient-to-br transition-all duration-500 group-hover:scale-105 group-hover:border-accent-neon",
                                                 cat.color
                                             )}>
                                                 <img
@@ -124,7 +124,7 @@ function SearchResults() {
                                                     className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-80 transition-all duration-700"
                                                 />
                                                 <div className="absolute inset-0 flex items-center justify-center">
-                                                    <span className="text-lg font-black text-white tracking-widest group-hover:scale-110 transition-transform">{cat.name}</span>
+                                                    <span className="text-[10px] md:text-lg font-black text-white tracking-widest group-hover:scale-110 transition-transform">{cat.name}</span>
                                                 </div>
                                             </div>
                                         </motion.button>

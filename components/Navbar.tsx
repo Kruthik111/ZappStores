@@ -21,11 +21,10 @@ const SUGGESTIONS = [
 
 export const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-    const [searchQuery, setSearchQuery] = useState("");
     const { cartCount } = useCart();
     const router = useRouter();
-    const searchRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleScroll = () => setIsScrolled(window.scrollY > 50);
@@ -33,23 +32,7 @@ export const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
-                setIsSearchOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-
-    const handleSearch = (e: React.FormEvent) => {
-        e.preventDefault();
-        if (searchQuery.trim()) {
-            router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
-            setIsSearchOpen(false);
-        }
-    };
+    const navItems = ['NEW DROPS', 'TECH', 'APPAREL', 'GAMING'];
 
     return (
         <nav
@@ -59,12 +42,12 @@ export const Navbar = () => {
             )}
         >
             <div className="max-w-7xl mx-auto flex items-center justify-between">
-                <Link href="/">
+                <Link href="/" onClick={() => setIsMenuOpen(false)}>
                     <Logo />
                 </Link>
 
                 <div className="hidden md:flex items-center gap-10 text-[11px] font-bold tracking-[0.2em] text-neutral-400">
-                    {['NEW DROPS', 'TECH', 'APPAREL', 'GAMING'].map((item) => (
+                    {navItems.map((item) => (
                         <Link
                             key={item}
                             href="/explore"
@@ -97,11 +80,43 @@ export const Navbar = () => {
                         )}
                     </Link>
 
-                    <button className="md:hidden text-neutral-400 hover:text-white transition-colors p-2 glass rounded-full">
-                        <Menu size={20} />
+                    <button
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        className="md:hidden text-neutral-400 hover:text-white transition-colors p-2 glass rounded-full z-[110]"
+                    >
+                        {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
                     </button>
                 </div>
             </div>
+
+            {/* Mobile Menu Overlay */}
+            <AnimatePresence>
+                {isMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className="fixed inset-0 bg-black/95 backdrop-blur-xl z-[105] md:hidden flex flex-col items-center justify-center gap-8"
+                    >
+                        {navItems.map((item, i) => (
+                            <motion.div
+                                key={item}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.1 }}
+                            >
+                                <Link
+                                    href="/explore"
+                                    onClick={() => setIsMenuOpen(false)}
+                                    className="text-4xl font-black italic tracking-tighter text-white hover:text-accent-primary transition-colors"
+                                >
+                                    {item}
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </nav>
     );
 };
