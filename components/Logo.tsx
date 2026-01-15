@@ -5,16 +5,22 @@ import { useState, useCallback, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 
 export const Logo = ({ className }: { className?: string }) => {
-    const [isHovered, setIsHovered] = useState(false);
     const [isGlitching, setIsGlitching] = useState(false);
 
     useEffect(() => {
-        if (isHovered) {
+        const triggerGlitch = () => {
             setIsGlitching(true);
-            const timer = setTimeout(() => setIsGlitching(false), 750);
-            return () => clearTimeout(timer);
-        }
-    }, [isHovered]);
+            setTimeout(() => setIsGlitching(false), 750);
+        };
+
+        // Trigger immediately on mount
+        triggerGlitch();
+
+        // Then trigger every 5 seconds
+        const interval = setInterval(triggerGlitch, 5000);
+
+        return () => clearInterval(interval);
+    }, []);
 
     const generateSparks = useCallback(() => {
         return Array.from({ length: 8 }).map((_, i) => (
@@ -38,15 +44,11 @@ export const Logo = ({ className }: { className?: string }) => {
     }, []);
 
     return (
-        <div
-            className={cn("relative cursor-pointer group", className)}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-        >
+        <div className={cn("relative cursor-pointer group", className)}>
             <div className={cn(
                 "relative z-10 text-2xl md:text-3xl font-black italic tracking-tighter transition-all duration-75",
-                isHovered && "text-white scale-[1.02] -skew-x-12",
-                !isHovered && "text-white"
+                isGlitching && "text-white scale-[1.02] -skew-x-12",
+                !isGlitching && "text-white"
             )}>
                 <span className={cn(isGlitching && "glitch-active block")}>
                     ZAPP<span className="text-accent-primary">.</span>STORE
@@ -55,7 +57,7 @@ export const Logo = ({ className }: { className?: string }) => {
 
             {/* Electric Glow */}
             <AnimatePresence>
-                {isHovered && (
+                {isGlitching && (
                     <>
                         <motion.div
                             initial={{ opacity: 0 }}
@@ -64,7 +66,7 @@ export const Logo = ({ className }: { className?: string }) => {
                             className="absolute inset-0 bg-accent-primary/20 blur-xl -z-10"
                         />
                         <div className="absolute inset-0 flex items-center justify-center -z-10 overflow-visible">
-                            {isGlitching && generateSparks()}
+                            {generateSparks()}
                         </div>
                     </>
                 )}
@@ -79,7 +81,7 @@ export const Logo = ({ className }: { className?: string }) => {
                 } : { opacity: 0 }}
                 transition={{
                     duration: 0.15,
-                    repeat: 2, // A few quick flashes
+                    repeat: 2,
                     repeatDelay: 0.05
                 }}
                 className="absolute inset-0 bg-white/10 blur-2xl -z-10"

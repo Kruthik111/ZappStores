@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
+import Link from "next/link";
 import Image from 'next/image';
 
 export const Hero = ({ image }: { image: string }) => {
@@ -50,6 +51,8 @@ export const Hero = ({ image }: { image: string }) => {
                     </h1>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+
+                    <Link href="/explore">
                         <motion.button
                             whileHover={{ scale: 1.05, rotate: -2 }}
                             whileTap={{ scale: 0.95 }}
@@ -59,6 +62,7 @@ export const Hero = ({ image }: { image: string }) => {
                             <ArrowRight size={24} className="relative z-10 transition-transform group-hover:translate-x-2" />
                             <div className="absolute inset-0 bg-neutral-100 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
                         </motion.button>
+                    </Link>
 
                         <button className="text-white font-bold text-lg hover:text-accent-neon transition-colors border-b-2 border-white/20 hover:border-accent-neon pb-1">
                             EXPLORE GEAR

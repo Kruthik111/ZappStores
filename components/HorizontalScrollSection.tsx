@@ -45,7 +45,7 @@ export const HorizontalScrollSection = ({ title, products }: HorizontalScrollSec
     return (
         <section ref={targetRef} className="relative h-[400vh] bg-transparent">
             <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-                <div className="absolute top-20 left-6 md:left-20 z-10 pointer-events-none">
+                <div className="absolute top-24 left-6 md:left-20 z-10 pointer-events-none">
                     <motion.h2
                         initial={{ opacity: 0, x: -50 }}
                         whileInView={{ opacity: 1, x: 0 }}
@@ -58,7 +58,7 @@ export const HorizontalScrollSection = ({ title, products }: HorizontalScrollSec
                 <motion.div
                     ref={contentRef}
                     style={{ x }}
-                    className="flex gap-12 pl-[15vw] pr-20 items-center"
+                    className="flex gap-12 pl-[15vw] pr-20 items-center mt-16 md:mt-32"
                 >
                     {products.map((product) => (
                         <div key={product.id} className="w-[380px] md:w-[500px] shrink-0">

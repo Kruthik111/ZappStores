@@ -3,8 +3,9 @@
 import { Hero } from '@/components/Hero';
 import { Marquee } from '@/components/Marquee';
 import { HorizontalScrollSection } from '@/components/HorizontalScrollSection';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import { PRODUCTS } from '@/lib/constants';
+import { useRef } from 'react';
 
 export default function Home() {
   const techProducts = PRODUCTS.filter(p => p.category === 'tech').slice(0, 5);
@@ -16,7 +17,7 @@ export default function Home() {
       <Hero image="/hero.png" />
 
       <div className="relative z-20 -mt-10 overflow-hidden">
-        <Marquee className="bg-accent-primary transform -rotate-1 py-8 md:py-12 border-y-2 border-black" speed={15}>
+        <Marquee className="bg-yellow-400 transform -rotate-1 py-8 md:py-12 border-y-2 border-black" speed={15}>
           {['NEW DROPS', 'LIMITED EDITION', 'STREETWEAR', 'GAMING TECH', 'GEN Z READY'].map((text, i) => (
             <span key={i} className="text-5xl md:text-8xl font-black text-black mx-12 italic uppercase tracking-tighter">
               {text}
@@ -25,7 +26,9 @@ export default function Home() {
         </Marquee>
       </div>
 
-      <HorizontalScrollSection title="TECH FOR THE FUTURE" products={techProducts} />
+      <div className="py-6 md:py-12">
+        <HorizontalScrollSection title="TECH FOR THE FUTURE" products={techProducts} />
+      </div>
 
       <div className="py-20 px-6 max-w-7xl mx-auto">
         <motion.div
@@ -54,7 +57,9 @@ export default function Home() {
         </motion.div>
       </div>
 
-      <HorizontalScrollSection title="THE APPAREL DROP" products={apparelProducts} />
+      <div className="py-6 md:py-12">
+        <HorizontalScrollSection title="THE APPAREL DROP" products={apparelProducts} />
+      </div>
 
       <div className="py-24">
         <Marquee className="bg-neutral-900/50 border-y border-white/5 py-12" direction="right" speed={30}>
@@ -71,17 +76,43 @@ export default function Home() {
         </Marquee>
       </div>
 
-      <HorizontalScrollSection title="LEVEL UP YOUR SETUP" products={gamingProducts} />
+      <div className="py-6 md:py-12">
+        <HorizontalScrollSection title="LEVEL UP YOUR SETUP" products={gamingProducts} />
+      </div>
 
       <div className="py-40 px-6 text-center overflow-hidden">
         <h2 className="text-sm font-black tracking-[0.6em] text-accent-primary mb-12 uppercase opacity-50">Follow the energy</h2>
-        <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 text-6xl md:text-[12vw] font-black text-white/5 italic select-none leading-none">
-          <motion.span whileHover={{ color: "rgba(0, 204, 255, 0.4)", scale: 1.05 }} className="transition-all">#ZAPPSTORE</motion.span>
-          <motion.span whileHover={{ color: "rgba(255, 77, 0, 0.4)", scale: 1.05 }} className="text-white/10 transition-all">#GENZ</motion.span>
-          <motion.span whileHover={{ color: "rgba(0, 255, 102, 0.4)", scale: 1.05 }} className="transition-all">#TECHTHRDS</motion.span>
-          <motion.span whileHover={{ color: "rgba(255, 255, 255, 0.4)", scale: 1.05 }} className="text-accent-neon/10 transition-all">#FUTURE</motion.span>
+        <div className="flex flex-wrap justify-center gap-x-12 gap-y-12 md:gap-y-6 text-6xl md:text-[12vw] font-black text-white/5 italic select-none leading-none">
+          <AnimatedHashtag text="#ZAPPSTORE" color="rgba(0, 204, 255, 0.4)" />
+          <AnimatedHashtag text="#GENZ" color="rgba(255, 77, 0, 0.4)" initialOpacity={0.1} />
+          <AnimatedHashtag text="#TECHTHRDS" color="rgba(0, 255, 102, 0.4)" />
+          <AnimatedHashtag text="#FUTURE" color="rgba(255, 255, 255, 0.4)" initialOpacity={0.1} />
         </div>
       </div>
     </div>
+  );
+}
+
+function AnimatedHashtag({ text, color, initialOpacity = 0.05 }: { text: string; color: string; initialOpacity?: number }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, {
+    margin: "-30% 0px -30% 0px" // Wider trigger zone - activates earlier, especially helpful on mobile
+  });
+
+  return (
+    <motion.span
+      ref={ref}
+      animate={{
+        color: isInView ? color : `rgba(255, 255, 255, ${initialOpacity})`,
+        scale: isInView ? 1.05 : 1
+      }}
+      transition={{
+        duration: 1.2,
+        ease: "easeOut"
+      }}
+      className="transition-all"
+    >
+      {text}
+    </motion.span>
   );
 }
