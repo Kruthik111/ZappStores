@@ -1,7 +1,7 @@
 export const PRODUCTS = [
     { id: 1, name: 'Zebronics Zeb-Thunder Pro Wireless Bluetooth', price: 299, image: 'https://shop.zebronics.com/cdn/shop/files/Zeb-Thunder-Pro-pic2.jpg?v=1709202990&width=700', category: 'tech' },
     { id: 2, name: 'Neon-G Shift Mouse', price: 89, image: 'https://gshiftlabs.com/wp-content/uploads/2022/08/gshift1.webp', category: 'gaming' },
-    { id: 3, name: 'Cyber Mech Keyboard', price: 159, image: '/headphones.png', category: 'tech' },
+    { id: 3, name: 'Cyber Mech Keyboard', price: 159, image: 'https://cdn.shopify.com/s/files/1/0078/2863/5712/files/PC-2_01_db05cb3b-dad4-4372-ad67-9c64f6016351.jpg?v=1708505048', category: 'tech' },
     { id: 4, name: 'Z-Watch Ultra v2', price: 399, image: '/smartwatch.png', category: 'tech' },
     { id: 10, name: 'Pulse Smart Band', price: 129, image: 'https://www.gonoise.com/cdn/shop/products/NoisePulse1stImageNew_1.png?v=1655378598', category: 'tech' },
     { id: 5, name: 'Midnight Oversized Hoodie', price: 75, image: '/hoodie.png', category: 'apparel' },

@@ -52,17 +52,17 @@ export const Hero = ({ image }: { image: string }) => {
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-6">
 
-                    <Link href="/explore">
-                        <motion.button
-                            whileHover={{ scale: 1.05, rotate: -2 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="group relative flex items-center gap-3 bg-white text-black px-10 py-5 rounded-3xl font-black text-xl hover:bg-accent-neon transition-all overflow-hidden"
-                        >
-                            <span className="relative z-10">SHOP THE DROP</span>
-                            <ArrowRight size={24} className="relative z-10 transition-transform group-hover:translate-x-2" />
-                            <div className="absolute inset-0 bg-neutral-100 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-                        </motion.button>
-                    </Link>
+                        <Link href="/explore">
+                            <motion.button
+                                whileHover={{ scale: 1.05, rotate: -2 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="group relative flex items-center gap-3 bg-white text-black px-10 py-5 rounded-3xl font-black text-xl overflow-hidden"
+                            >
+                                <span className="relative z-10 group-hover:text-white transition-colors duration-300">SHOP THE DROP</span>
+                                <ArrowRight size={24} className="relative z-10 transition-all duration-300 group-hover:translate-x-2 group-hover:text-white" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                            </motion.button>
+                        </Link>
 
                         <button className="text-white font-bold text-lg hover:text-accent-neon transition-colors border-b-2 border-white/20 hover:border-accent-neon pb-1">
                             EXPLORE GEAR
